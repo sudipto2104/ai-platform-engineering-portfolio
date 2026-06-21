@@ -1,0 +1,25 @@
+import gradio as gr
+from rag_chain import ask_question
+
+print("🚀 Starting Platform Engineering Assistant UI...")
+
+def chat(message, history):
+    if not message or message.strip() == "":
+        return "", history
+    
+    response = ask_question(message)
+    history.append((message, response))
+    return "", history
+
+with gr.Blocks(title="Platform Engineering Assistant") as demo:
+    gr.Markdown("# 🤖 Platform Engineering Assistant\nRAG System for Platform & Kubernetes Knowledge")
+    
+    chatbot = gr.Chatbot(height=500)
+    msg = gr.Textbox(
+        placeholder="কোনো প্রশ্ন করো... যেমন: Cilium Network Policy কিভাবে কাজ করে?",
+        label="তোমার প্রশ্ন লেখো"
+    )
+    
+    msg.submit(chat, , )
+
+demo.launch(share=True)
