@@ -12,7 +12,9 @@ llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
 # Tools
 search_tool = TavilySearchResults(max_results=3)
-tools = # System Prompt
+tools = [search_tool]
+
+# System Prompt
 system_message = SystemMessage(
     content="""You are a helpful AI assistant with access to web search.
     When asked a question, think step by step.
@@ -28,9 +30,9 @@ def ask_agent(question: str):
     print(f"\n❓ Question: {question}")
     print("-" * 60)
     
-    response = agent_executor.invoke({"messages": })
+    response = agent_executor.invoke({"messages": [("user", question)]})
     
-    answer = response [-1].content
+    answer = response["messages"][-1].content
     print(f"💡 Answer: {answer}")
     return answer
 
