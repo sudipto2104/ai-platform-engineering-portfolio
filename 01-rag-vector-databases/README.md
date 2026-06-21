@@ -1,26 +1,30 @@
-# Project 01: RAG System with Vector Databases
+# 01 - RAG System with Vector Databases
 
-## Overview
+Production-ready Retrieval Augmented Generation system for Platform Engineering knowledge.
 
-This project implements a complete Retrieval-Augmented Generation (RAG) system using both Chroma and pgvector, deployed on Kubernetes. It forms the foundation of the Platform Assistant.
+## Features
+- Support for both **pgvector (Supabase)** and **Chroma**
+- Smart document chunking (600 tokens with 80 overlap)
+- Rich metadata handling
+- Source citations in responses
+- FastAPI backend + Gradio UI
+- Built for cloud development (GitHub Codespaces + Supabase)
 
-## Key Components
-- Chroma vector database deployment on Kubernetes
-- Document ingestion pipeline with chunking and metadata
-- Comparison between Chroma and pgvector
-- Full RAG integration with citation support
-
-## Technologies
-- Chroma / pgvector
+## Tech Stack
 - LangChain
+- pgvector / Chroma
 - HuggingFace Embeddings
-- Kubernetes + Helm
+- FastAPI + Gradio
 
-## Highlights
-- Production-ready ingestion pipeline
-- Hybrid search capabilities
-- Proper chunking strategies (600 tokens, 80 overlap)
-- Source citation in responses
+## Quick Start
 
-## Author
-Sudipto Saha — AI Platform Engineering Portfolio
+1. Copy `.env.example` to `.env` and update values
+2. `pip install -r requirements.txt`
+3. Run ingestion: `python ingestion.py`
+4. Run UI: `python ui_gradio.py`
+
+## Project Structure
+- `ingestion.py` - Document processing and vector store ingestion
+- `rag_chain.py` - Core RAG pipeline with citations
+- `rag_api.py` - FastAPI backend
+- `ui_gradio.py` - Interactive demo UI
