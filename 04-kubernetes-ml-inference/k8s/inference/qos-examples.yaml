@@ -1,0 +1,61 @@
+# Reference manifests demonstrating Kubernetes QoS classes for inference workloads.
+# Apply individually for learning — not intended for simultaneous production use.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inference-burstable
+  namespace: ml-inference
+  labels:
+    app: inference-burstable
+    qos-class: burstable
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inference-burstable
+  template:
+    metadata:
+      labels:
+        app: inference-burstable
+        qos-class: burstable
+    spec:
+      containers:
+        - name: inference
+          image: inference-server:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inference-besteffort
+  namespace: ml-inference
+  labels:
+    app: inference-besteffort
+    qos-class: besteffort
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inference-besteffort
+  template:
+    metadata:
+      labels:
+        app: inference-besteffort
+        qos-class: besteffort
+    spec:
+      containers:
+        - name: inference
+          image: inference-server:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080

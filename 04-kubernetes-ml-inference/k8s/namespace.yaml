@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ml-inference
+  labels:
+    app.kubernetes.io/part-of: platform-assistant
+    workload-type: inference

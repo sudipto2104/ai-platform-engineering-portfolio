@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: inference-server
+  namespace: ml-inference
+  labels:
+    app: inference-server
+spec:
+  selector:
+    app: inference-server
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
