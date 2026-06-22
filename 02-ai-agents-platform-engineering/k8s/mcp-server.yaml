@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcp-server
+  namespace: platform-agents
+  labels:
+    app: mcp-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcp-server
+  template:
+    metadata:
+      labels:
+        app: mcp-server
+    spec:
+      serviceAccountName: platform-agent
+      containers:
+        - name: mcp-server
+          image: platform-mcp-server:local
+          imagePullPolicy: IfNotPresent
+          command: ["python", "scripts/run_mcp_server.py"]
+          env:
+            - name: MCP_PORT
+              value: "8090"
+            - name: K8S_DRY_RUN
+              value: "false"
+          ports:
+            - containerPort: 8090
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mcp-server
+  namespace: platform-agents
+spec:
+  selector:
+    app: mcp-server
+  ports:
+    - port: 8090
+      targetPort: 8090
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: platform-agent
+  namespace: platform-agents

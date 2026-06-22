@@ -1,14 +1,25 @@
-from agent import ask_agent
+"""Smoke test for the ReAct agent (requires API keys)."""
 
-print("🤖 AI Agent Test\n")
+from __future__ import annotations
 
-questions = [
-    "Who is the current CEO of OpenAI?",
-    "What are the latest developments in Kubernetes in 2026?",
-    "What is the difference between ArgoCD and Flux?"
-]
+import os
 
-for question in questions:
-    ask_agent(question)
+import pytest
 
-print("✅ Test completed!")
+from platform_agents.react_agent import ask_agent
+
+
+@pytest.mark.skipif(not os.getenv("OPENAI_API_KEY"), reason="OPENAI_API_KEY not set")
+@pytest.mark.skipif(not os.getenv("TAVILY_API_KEY"), reason="TAVILY_API_KEY not set")
+def test_react_agent_smoke() -> None:
+    answer = ask_agent("What is Kubernetes?")
+    assert answer
+    assert "ERROR" not in answer
+
+
+if __name__ == "__main__":
+    if not os.getenv("OPENAI_API_KEY") or not os.getenv("TAVILY_API_KEY"):
+        print("Skipping live agent test — set OPENAI_API_KEY and TAVILY_API_KEY in .env")
+    else:
+        print(ask_agent("What is the difference between ArgoCD and Flux?"))
+        print("Test completed!")
