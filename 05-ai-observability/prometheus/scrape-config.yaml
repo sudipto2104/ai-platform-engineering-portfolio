@@ -1,0 +1,10 @@
+scrape_configs:
+  - job_name: llm-metrics-exporter
+    metrics_path: /metrics
+    scrape_interval: 15s
+    static_configs:
+      - targets:
+          - llm-metrics-exporter.ai-observability.svc.cluster.local:8000
+        labels:
+          service: platform-assistant
+          component: llm-observability

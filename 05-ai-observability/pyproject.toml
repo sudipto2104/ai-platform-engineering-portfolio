@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-observability"
+version = "1.0.0"
+description = "Observability layer for LLM systems with Prometheus metrics"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "prometheus-client>=0.21.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0"]
+
+[tool.setuptools]
+packages = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["observability-layer"]

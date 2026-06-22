@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: llm-metrics-exporter
+  namespace: ai-observability
+  labels:
+    app: llm-metrics-exporter
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: llm-metrics-exporter
+  namespaceSelector:
+    matchNames:
+      - ai-observability
+  endpoints:
+    - port: metrics
+      interval: 15s
+      path: /metrics

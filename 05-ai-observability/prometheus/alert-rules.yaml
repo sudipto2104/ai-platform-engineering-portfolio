@@ -1,0 +1,51 @@
+groups:
+  - name: llm-observability
+    rules:
+      - alert: LLMHighErrorRate
+        expr: |
+          sum(rate(llm_requests_total{status="error"}[5m])) by (model)
+          /
+          sum(rate(llm_requests_total[5m])) by (model)
+          > 0.05
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High LLM error rate for {{ $labels.model }}"
+          description: "More than 5% of LLM requests are failing over the last 10 minutes."
+
+      - alert: LLMCostSpike
+        expr: |
+          sum(increase(llm_cost_dollars_total[1h])) by (feature) > 5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "LLM cost spike for feature {{ $labels.feature }}"
+          description: "Hourly LLM spend exceeded $5 for this feature."
+
+      - alert: LLMElevatedLatency
+        expr: |
+          histogram_quantile(
+            0.95,
+            sum(rate(llm_latency_seconds_bucket{phase="total"}[5m])) by (le, model)
+          ) > 10
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Elevated p95 LLM latency for {{ $labels.model }}"
+          description: "p95 total latency is above 10 seconds."
+
+      - alert: LLMQualityDegradation
+        expr: |
+          histogram_quantile(
+            0.50,
+            sum(rate(llm_evaluation_score_bucket{metric_name="average"}[30m])) by (le, model)
+          ) < 3
+        for: 15m
+        labels:
+          severity: critical
+        annotations:
+          summary: "LLM quality degradation for {{ $labels.model }}"
+          description: "Median evaluation score dropped below 3/5."
