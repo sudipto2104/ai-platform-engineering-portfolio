@@ -1,0 +1,30 @@
+groups:
+  - name: platform-assistant
+    rules:
+      - alert: AssistantHighErrorRate
+        expr: |
+          sum(rate(gateway_requests_total{status="error"}[5m]))
+          /
+          sum(rate(gateway_requests_total[5m])) > 0.05
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Platform Assistant error rate above 5%"
+
+      - alert: AssistantGuardrailSpike
+        expr: sum(increase(guardrail_triggers_total[15m])) > 20
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Elevated guardrail trigger rate"
+
+      - alert: AssistantHighLatency
+        expr: |
+          histogram_quantile(0.95, sum(rate(llm_latency_seconds_bucket{phase="total"}[5m])) by (le)) > 15
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "p95 LLM latency above 15 seconds"

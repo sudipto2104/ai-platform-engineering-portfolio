@@ -1,0 +1,15 @@
+Troubleshooting Kubernetes Pods
+
+CrashLoopBackOff indicates a container is repeatedly failing and restarting. Check logs with
+kubectl logs and inspect events with kubectl describe pod. Common causes include misconfigured
+environment variables, failing readiness probes, missing ConfigMaps or Secrets, and OOM kills.
+
+ImagePullBackOff means the node cannot pull the container image. Verify image name, tag,
+registry credentials, and network policies.
+
+Pending pods may lack schedulable nodes, sufficient CPU/memory, or matching node selectors and
+taints. Use kubectl describe pod to view scheduler events.
+
+OOMKilled containers exceeded memory limits. Increase limits after measuring actual usage or
+fix memory leaks in the application. For inference workloads, set requests equal to limits
+for Guaranteed QoS when memory is predictable.

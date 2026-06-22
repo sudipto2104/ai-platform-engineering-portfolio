@@ -1,0 +1,15 @@
+Platform Engineering Practices
+
+Platform engineering teams build internal developer platforms (IDPs) that reduce cognitive load
+for application teams. Golden paths, self-service APIs, and paved roads accelerate delivery
+while maintaining security and compliance guardrails.
+
+GitOps with ArgoCD or Flux provides declarative cluster management from Git repositories.
+Infrastructure as Code with Terraform or Crossplane enables reproducible environments.
+
+For AI platform workloads, combine RAG knowledge bases, agent tool interfaces, observability
+for token and cost tracking, and secrets management with Vault. Read-only kubectl access is
+recommended for assistant agents; write operations require human approval workflows.
+
+Health checks should include readiness probes that verify dependencies such as vector databases
+and LLM endpoints before accepting traffic.

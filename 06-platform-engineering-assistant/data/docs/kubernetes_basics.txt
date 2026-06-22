@@ -1,0 +1,18 @@
+Kubernetes Basics
+
+Kubernetes orchestrates containerized workloads across a cluster of nodes. The control plane
+manages desired state through the API server, scheduler, etcd, and controllers. Worker nodes
+run kubelet and kube-proxy to execute pods.
+
+A Pod is the smallest deployable unit and may contain one or more containers sharing network
+and storage. Deployments manage ReplicaSets and provide declarative rolling updates. Services
+expose stable network endpoints to pods using ClusterIP, NodePort, or LoadBalancer types.
+
+Namespaces provide logical isolation for teams and environments. ResourceQuota and LimitRange
+objects enforce fair resource sharing. Operators should configure PodDisruptionBudgets to
+maintain availability during node maintenance.
+
+Common troubleshooting commands:
+- kubectl get pods -n <namespace>
+- kubectl describe pod <name> -n <namespace>
+- kubectl logs <pod> -n <namespace> --tail=100

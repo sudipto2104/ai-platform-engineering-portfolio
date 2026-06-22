@@ -1,0 +1,38 @@
+{
+  "title": "Platform Engineering Assistant",
+  "uid": "platform-assistant-capstone",
+  "schemaVersion": 39,
+  "version": 1,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Gateway Requests",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "targets": [{"expr": "sum(rate(gateway_requests_total[5m])) by (status)", "legendFormat": "{{status}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Token Throughput",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "targets": [{"expr": "sum(rate(llm_tokens_total[5m])) by (token_type)", "legendFormat": "{{token_type}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Estimated Cost",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+      "targets": [{"expr": "sum(increase(llm_cost_dollars_total[1h])) by (feature)", "legendFormat": "{{feature}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Guardrail Triggers",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+      "targets": [{"expr": "sum(rate(guardrail_triggers_total[5m])) by (guardrail_type)", "legendFormat": "{{guardrail_type}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "RAG Retrievals",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 16},
+      "targets": [{"expr": "sum(rate(rag_retrievals_total[5m])) by (status)", "legendFormat": "{{status}}"}]
+    }
+  ]
+}
