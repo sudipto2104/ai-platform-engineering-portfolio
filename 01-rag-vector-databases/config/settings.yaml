@@ -1,0 +1,24 @@
+chunking:
+  chunk_size: 600
+  chunk_overlap: 80
+  encoding: cl100k_base
+
+embeddings:
+  model_name: sentence-transformers/all-MiniLM-L6-v2
+  device: cpu
+
+retrieval:
+  top_k: 5
+  hybrid_alpha: 0.7
+
+stores:
+  chroma:
+    persist_directory: ./data/chroma
+    collection_name: platform_docs
+  pgvector:
+    host: localhost
+    port: 5432
+    database: rag
+    user: rag
+    password: rag123
+    table_name: document_embeddings

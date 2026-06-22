@@ -1,0 +1,23 @@
+Kubernetes Overview
+
+Kubernetes is an open-source container orchestration platform that automates deployment,
+scaling, and management of containerized applications. It groups containers into logical
+units called Pods, which are the smallest deployable units in Kubernetes.
+
+A Pod can contain one or more containers that share storage and network resources.
+Pods are scheduled onto Nodes, which are worker machines in the cluster. The control plane
+manages the desired state of the cluster through components like the API server,
+scheduler, and controller manager.
+
+Deployments provide declarative updates for Pods and ReplicaSets. You describe a desired
+state in a Deployment object, and the Deployment controller changes the actual state to
+the desired state at a controlled rate. Services expose Pod endpoints as a stable network
+identity using ClusterIP, NodePort, or LoadBalancer types.
+
+PersistentVolumeClaims request storage resources from the cluster. StorageClasses define
+the types of storage available. ConfigMaps and Secrets inject configuration and sensitive
+data into Pods as environment variables or mounted volumes.
+
+For production AI workloads, operators typically configure ResourceQuotas, LimitRanges,
+and PodDisruptionBudgets to ensure fair resource sharing and high availability during
+node maintenance and rolling updates.

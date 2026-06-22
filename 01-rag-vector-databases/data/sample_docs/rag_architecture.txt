@@ -1,0 +1,23 @@
+Retrieval-Augmented Generation Architecture
+
+Retrieval-Augmented Generation (RAG) combines information retrieval with large language
+model generation. Instead of relying solely on parametric knowledge stored in model weights,
+RAG retrieves relevant documents from an external knowledge base at query time.
+
+A typical RAG pipeline includes four stages: ingestion, indexing, retrieval, and generation.
+During ingestion, raw documents are loaded, cleaned, and split into chunks. Chunking strategy
+significantly affects retrieval quality. Production systems often use token-based chunking
+with overlap to preserve context across boundaries. A common configuration is 600 tokens
+per chunk with 80 tokens of overlap.
+
+Indexing converts chunks into vector embeddings using models such as sentence-transformers
+or OpenAI embedding APIs. Embeddings are stored in a vector database like Chroma, pgvector,
+Pinecone, or Weaviate alongside metadata for filtering and citation.
+
+Retrieval can be purely dense (semantic similarity), sparse (BM25 keyword matching), or
+hybrid. Hybrid search combines both approaches using a weighted score, often improving
+recall for technical documentation where exact terminology matters.
+
+The generation step injects retrieved context into the LLM prompt. Source citations should
+reference the original document path and chunk index so users can verify answers. This
+reduces hallucination and builds trust in AI platform assistants.

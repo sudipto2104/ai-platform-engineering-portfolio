@@ -1,0 +1,6 @@
+apiVersion: v2
+name: chroma
+description: Helm chart for Chroma vector database (RAG platform)
+type: application
+version: 0.1.0
+appVersion: "0.5.23"

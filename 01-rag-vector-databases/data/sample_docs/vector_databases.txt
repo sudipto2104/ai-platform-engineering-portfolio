@@ -1,0 +1,23 @@
+Vector Databases for AI Platforms
+
+Vector databases store high-dimensional embeddings and support approximate nearest neighbor
+search at scale. They are essential infrastructure for semantic search, recommendation
+systems, and RAG applications.
+
+Chroma is an open-source embedding database designed for developer productivity. It supports
+persistent local storage and a client-server mode suitable for Kubernetes deployment.
+Collections group embeddings with metadata. Chroma integrates natively with LangChain and
+supports filtering on metadata fields during retrieval.
+
+pgvector extends PostgreSQL with vector similarity search. This approach consolidates
+operational data and embeddings in a single database, reducing infrastructure complexity
+for teams already running Postgres. pgvector supports cosine distance, L2 distance, and
+inner product operators. Indexes like HNSW and IVFFlat accelerate queries on large tables.
+
+When comparing Chroma and pgvector, consider operational model, scale requirements, and
+existing platform investments. Chroma offers a purpose-built API and simpler onboarding for
+RAG prototypes. pgvector excels when embeddings must coexist with transactional data,
+complex SQL joins, or row-level security policies.
+
+Production deployments should include backup strategies, connection pooling, monitoring of
+query latency, and index maintenance as embedding dimensions and corpus size grow.

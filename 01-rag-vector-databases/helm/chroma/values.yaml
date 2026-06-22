@@ -1,0 +1,28 @@
+namespace: rag-system
+
+image:
+  repository: chromadb/chroma
+  tag: "0.5.23"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000
+
+persistence:
+  enabled: true
+  size: 5Gi
+  accessMode: ReadWriteOnce
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 250m
+  limits:
+    memory: 2Gi
+    cpu: "1"
+
+env:
+  isPersistent: "TRUE"
+  persistDirectory: /chroma/chroma
+  anonymizedTelemetry: "FALSE"

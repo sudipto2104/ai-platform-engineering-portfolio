@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pgvector-pvc
+  namespace: rag-system
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgvector-init
+  namespace: rag-system
+data:
+  init.sql: |
+    CREATE EXTENSION IF NOT EXISTS vector;
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgvector
+  namespace: rag-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgvector
+  template:
+    metadata:
+      labels:
+        app: pgvector
+    spec:
+      containers:
+        - name: postgres
+          image: pgvector/pgvector:pg16
+          env:
+            - name: POSTGRES_DB
+              value: rag
+            - name: POSTGRES_USER
+              value: rag
+            - name: POSTGRES_PASSWORD
+              value: rag123
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+            - name: init-scripts
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: pgvector-pvc
+        - name: init-scripts
+          configMap:
+            name: pgvector-init
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgvector
+  namespace: rag-system
+spec:
+  selector:
+    app: pgvector
+  ports:
+    - port: 5432
+      targetPort: 5432
+  type: ClusterIP

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chroma
+  namespace: rag-system
+  labels:
+    app: chroma
+spec:
+  selector:
+    app: chroma
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP
